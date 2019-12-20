@@ -1,0 +1,26 @@
+import smtplib #SMTP FULL FORM IS SIMPLE MAIL TRANSFER PROTOCOL
+import requests
+import random
+
+def mmymail():
+    user="YOUREMAIL ID"
+    password="PASSWORD OF YOUR EMAIL ID"
+    mail=smtplib.SMTP("smtp.gmail.com",587)#for gmail smtp port is 587
+    mail.ehlo()#if it returns 250 interger(the code for success in SMTP)
+    mail.starttls()
+    mail.login(user,password)
+    Subject="SUBJECT OF YOUR EMAIL"
+    Body=myquotes()
+    msg=f"Subject : {Subject}\n\n{Body}"
+    mail.sendmail(user,"ENTER MAIL THAT YOU WANT TO SEND",msg)
+    mail.quit()
+def myquotes():
+    i=random.randint(1,1643)#here i put 1 to 1643 because in this api there are 1642 quotes
+    res=requests.get(url="https://type.fit/api/quotes")
+    data=res.json()
+
+    text=data[i]["text"]
+    author=data[i]["author"]
+    return f"{text}\n-{author}"
+
+mmymail()
